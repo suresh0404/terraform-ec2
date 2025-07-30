@@ -2,13 +2,13 @@ provider "aws" {
   region = "us-east-2"  # ✅ Change region here
 }
 
-resource "aws_instance" "my_vm" {
+resource "aws_instance" "terraform-ec2" {
   ami           = "ami-0c55b159cbfafe1f0" # Use a valid AMI for your new region
-  instance_type = "t2.micro"
+  instance_type = "t3.micro"
 
   tags = {
-    Name        = "MyEc2instance"   # ✅ Change or add more tags
-    Environment = "Dev"
+    Name        = "terraform-ec2"   # ✅ Change or add more tags
+    Environment = "Dev3"
     Owner       = "Suresh"
   }
 
