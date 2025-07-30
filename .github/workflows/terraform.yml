@@ -1,23 +1,16 @@
-name: Terraform CI/CD
+name: Terraform Deploy
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
 
 jobs:
   terraform:
-    name: Terraform Plan & Apply
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Code
+      - name: Checkout code
         uses: actions/checkout@v4
-
-      - name: Set up Terraform
-        uses: hashicorp/setup-terraform@v3
-        with:
-          terraform_version: 1.6.6
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v3
@@ -26,12 +19,14 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-2
 
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
       - name: Terraform Init
         run: terraform init
 
       - name: Terraform Plan
         run: terraform plan
 
-      # ⚠️ Optional: Enable below step if you want to auto-apply
-      # - name: Terraform Apply
-      #   run: terraform apply -auto-approve
+      - name: Terraform Apply
+        run: terraform apply -auto-approve
